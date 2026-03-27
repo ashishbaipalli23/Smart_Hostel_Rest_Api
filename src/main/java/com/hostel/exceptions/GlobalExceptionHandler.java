@@ -1,11 +1,12 @@
 package com.hostel.exceptions;
 
-
 import com.hostel.web.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,34 +21,53 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
-        );
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyExists(ResourceAlreadyExistsException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleAlreadyExists(ResourceAlreadyExistsException ex,
+            HttpServletRequest request) {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                                            .errorMsg(ex.getMessage())
-                                            .status(HttpStatus.CONFLICT.value())
-                                            .timeStamp(LocalDateTime.now())
-                                            .path(request.getRequestURI())
-                                            .method(request.getMethod())
-                                            .build();
-
+                .errorMsg(ex.getMessage())
+                .status(HttpStatus.CONFLICT.value())
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
 
         return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
+    }
 
+    @ExceptionHandler({ AuthenticationException.class })
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex,
+            HttpServletRequest request) {
+        String msg = (ex instanceof BadCredentialsException) ? "Invalid username or password" : ex.getMessage();
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errorMsg(msg)
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+
+        return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
-    public String globalExecption(Exception ex) {
+    public ResponseEntity<ErrorResponse> globalExecption(Exception ex, HttpServletRequest request) {
 
-        return "something is fishy :"+ex.getMessage();
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errorMsg("An unexpected error occurred: " + ex.getMessage())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
 
+        return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
     }
-
 
 }
