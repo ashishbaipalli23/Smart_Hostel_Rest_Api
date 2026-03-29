@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New User Registration Alert</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f7f6; -webkit-font-smoothing: antialiased;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f7f6; padding: 40px 0;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; border-top: 4px solid #e74c3c;">
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="padding: 30px 20px; border-bottom: 1px solid #eeeeee;">
+                            <h1 style="color: #e74c3c; margin: 0; font-size: 22px; font-weight: 600;">System Alert: New Registration</h1>
+                        </td>
+                    </tr>
+                    
+                    <!-- Body Content -->
+                    <tr>
+                        <td style="padding: 30px 40px;">
+                            <p style="color: #555555; font-size: 16px; line-height: 1.6; margin-top: 0; margin-bottom: 25px;">
+                                <strong>Hello Admin Team,</strong><br><br>
+                                A new user has successfully registered on the Smart Hostel System. Please review the details below.
+                            </p>
+
+                            <!-- User Details Table -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                                <tr>
+                                    <td width="35%" style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee; border-top: 1px solid #eeeeee;">
+                                        Full Name
+                                    </td>
+                                    <td width="65%" style="padding: 12px 15px; color: #555555; font-size: 14px; border-bottom: 1px solid #eeeeee; border-top: 1px solid #eeeeee;" th:text="${name}">
+                                        John Doe
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee;">
+                                        Username (Email)
+                                    </td>
+                                    <td style="padding: 12px 15px; color: #555555; font-size: 14px; border-bottom: 1px solid #eeeeee;" th:text="${username}">
+                                        john@example.com
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee;">
+                                        Phone Number
+                                    </td>
+                                    <td style="padding: 12px 15px; color: #555555; font-size: 14px; border-bottom: 1px solid #eeeeee;" th:text="${phone}">
+                                        +1234567890
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee;">
+                                        Aadhaar Number
+                                    </td>
+                                    <td style="padding: 12px 15px; color: #555555; font-size: 14px; border-bottom: 1px solid #eeeeee;" th:text="${aadhaar}">
+                                        1234 5678 9012
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee;">
+                                        Role Assigned
+                                    </td>
+                                    <td style="padding: 12px 15px; border-bottom: 1px solid #eeeeee;">
+                                        <span style="background-color: #fcebeb; color: #e74c3c; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold;" th:text="${role}">TENANT</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee;">
+                                        Joining Date
+                                    </td>
+                                    <td style="padding: 12px 15px; color: #555555; font-size: 14px; border-bottom: 1px solid #eeeeee;" th:text="${joiningDate}">
+                                        2026-03-28
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50; font-size: 14px; font-weight: bold; border-bottom: 1px solid #eeeeee;">
+                                        Location / Address
+                                    </td>
+                                    <td style="padding: 12px 15px; color: #555555; font-size: 14px; border-bottom: 1px solid #eeeeee; line-height: 1.5;" th:text="${address}">
+                                        123 Main St, City, State ZIP
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="color: #555555; font-size: 15px; line-height: 1.6; margin-top: 30px; border-top: 1px dashed #dddddd; padding-top: 20px;">
+                                Review the dashboard to view full tenant/admin documents and verify identity.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="background-color: #f8f9fa; padding: 20px; border-top: 1px solid #eeeeee;">
+                            <p style="margin: 0; color: #999999; font-size: 12px; line-height: 1.5; text-transform: uppercase; letter-spacing: 1px;">
+                                Smart Hostel System Notification
+                            </p>
+                            <p style="margin: 5px 0 0 0; color: #aaaaaa; font-size: 12px; line-height: 1.5;">
+                                This is an automated administration message. Do not reply.
+                            </p>
+                            <p style="margin: 5px 0 0 0; color: #aaaaaa; font-size: 12px; line-height: 1.5;">
+                                All rights reserved &copy; 2026 Smart Hostel System.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

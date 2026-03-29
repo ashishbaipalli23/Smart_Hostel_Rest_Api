@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .errorMsg(ex.getMessage())
-                .status(HttpStatus.CONFLICT.value())
+                .status(HttpStatus.BAD_REQUEST.value())
                 .timeStamp(LocalDateTime.now())
                 .path(request.getRequestURI())
                 .method(request.getMethod())

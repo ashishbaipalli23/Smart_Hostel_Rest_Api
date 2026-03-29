@@ -22,6 +22,8 @@ public class UserService implements IUserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final IEmailService emailService;
+
     @Override
     @Transactional
     public String registerUser(UserRegistrationRequest request) {
@@ -34,14 +36,19 @@ public class UserService implements IUserService {
 
         }
 
-        request.setPassword(passwordEncoder.encode(request.getPassword()));// password encryption
-        request.setAadhaarNumber(passwordEncoder.encode(request.getAadhaarNumber()));// Aadhaar encryption
+        String rawPassword = request.getPassword();
+        request.setPassword(passwordEncoder.encode(rawPassword));// password encryption
+       // request.setAadhaarNumber(passwordEncoder.encode(request.getAadhaarNumber()));// Aadhaar encryption
 
         UserEntity userEntity = userMapper.toEntity(request);
+        userEntity.setJoiningDate(java.time.LocalDate.now());
         log.info("entity data : {}", userEntity);
 
         UserEntity savedUser = userRepository.save(userEntity);
         log.info("User registered successfully with ID: {}", savedUser.getId());
+
+        emailService.sendUserRegistrationEmail(savedUser, rawPassword);
+        emailService.sendAdminNotificationEmail(savedUser);
 
         return "User register with ID + " + savedUser.getId();
     }

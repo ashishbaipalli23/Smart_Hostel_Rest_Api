@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Successful</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f7f6; -webkit-font-smoothing: antialiased;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f7f6; padding: 40px 0;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden;">
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="background-color: #2c3e50; padding: 30px 20px;">
+                            <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;">Smart Hostel System</h1>
+                        </td>
+                    </tr>
+                    <!-- Body Content -->
+                    <tr>
+                        <td style="padding: 40px 40px 20px 40px;">
+                            <h2 style="color: #2c3e50; font-size: 20px; font-weight: 600; margin-top: 0;">Registration Successful!</h2>
+                            <p style="color: #555555; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                                Dear <strong style="color: #2c3e50;" th:text="${name}">User</strong>,
+                            </p>
+                            <p style="color: #555555; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+                                Welcome to <strong>Smart Hostel</strong>. Your account has been successfully created and we are thrilled to have you on board! Below are your account credentials. Please keep them secure and do not share them with anyone.
+                            </p>
+                            
+                            <!-- Credentials Box -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8f9fa; border-left: 4px solid #3498db; margin-bottom: 30px;">
+                                <tr>
+                                    <td style="padding: 20px;">
+                                        <p style="margin: 0 0 10px 0; font-size: 15px; color: #555555;">
+                                            <strong style="color: #2c3e50; display: inline-block; width: 90px;">Username:</strong> <span th:text="${username}">user@example.com</span>
+                                        </p>
+                                        <p style="margin: 0 0 10px 0; font-size: 15px; color: #555555;">
+                                            <strong style="color: #2c3e50; display: inline-block; width: 90px;">Password:</strong> <span th:text="${password}">password123</span>
+                                        </p>
+                                        <p style="margin: 0; font-size: 15px; color: #555555;">
+                                            <strong style="color: #2c3e50; display: inline-block; width: 90px;">Role:</strong> <span style="background-color: #e8f4f8; color: #2980b9; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: bold;" th:text="${role}">TENANT</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="color: #555555; font-size: 16px; line-height: 1.6; margin-bottom: 40px;">
+                                You can now log in to the system to access your dashboard and manage your hostel stay.
+                            </p>
+
+                            <!-- CTA Button -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <a href="#" style="background-color: #3498db; color: #ffffff; padding: 14px 30px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold; display: inline-block;">Login to Dashboard</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Space -->
+                    <tr><td height="40"></td></tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="background-color: #f8f9fa; padding: 20px; border-top: 1px solid #eeeeee;">
+                            <p style="margin: 0; color: #999999; font-size: 13px; line-height: 1.5;">
+                                This is an automated message. Please do not reply to this email.
+                            </p>
+                            <p style="margin: 5px 0 0 0; color: #999999; font-size: 13px; line-height: 1.5;">
+                                All rights reserved &copy; 2026 Smart Hostel System
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
