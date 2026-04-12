@@ -12,8 +12,8 @@ public class SmartHostelSystemApplication {
 
 		SpringApplication.run(SmartHostelSystemApplication.class, args);
 
-		 System.out.println(System.getenv("MAIL_USERNAME"));
-		 System.out.println(System.getenv("MAIL_PASSWORD"));
+//		 System.out.println(System.getenv("MAIL_USERNAME"));
+//		 System.out.println(System.getenv("MAIL_PASSWORD"));
 
 	}
 

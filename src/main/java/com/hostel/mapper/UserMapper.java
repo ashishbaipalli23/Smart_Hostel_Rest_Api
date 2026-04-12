@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
 
     UserEntity toEntity(UserRegistrationRequest requestDto);
+
+    UserRegistrationRequest toDto(UserEntity entity);
 }

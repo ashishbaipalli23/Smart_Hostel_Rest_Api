@@ -1,6 +1,9 @@
     package com.hostel.models;
+import com.hostel.utils.Roles;
+import com.hostel.utils.DocumentType;
+import com.hostel.utils.DocumentStatus;
 
-    import com.hostel.utilties.Roles;
+    import com.hostel.utils.Roles;
     import jakarta.persistence.*;
     import lombok.Getter;
     import lombok.Setter;

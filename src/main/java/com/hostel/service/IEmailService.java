@@ -1,8 +1,9 @@
 package com.hostel.service;
 
-import com.hostel.models.UserEntity;
+
+import com.hostel.web.request.UserRegistrationRequest;
 
 public interface IEmailService {
-    void sendUserRegistrationEmail(UserEntity user, String plainPassword);
-    void sendAdminNotificationEmail(UserEntity user);
+    void sendUserRegistrationEmail(UserRegistrationRequest user, String plainPassword);
+    void sendAdminNotificationEmail(UserRegistrationRequest user);
 }

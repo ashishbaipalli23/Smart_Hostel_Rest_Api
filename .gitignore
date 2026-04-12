@@ -34,3 +34,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Application Specific Directories
+logs/
+uploads/

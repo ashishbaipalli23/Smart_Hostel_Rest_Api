@@ -5,7 +5,11 @@ import com.hostel.web.request.UserRegistrationRequest;
 public interface IUserService {
 
 
-    //register the user
+    /**
+     * This method is used to register new user
+     * @param request contains user details
+     * @return string as msg
+     */
     String registerUser(UserRegistrationRequest request);
 
 }

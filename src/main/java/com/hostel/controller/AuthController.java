@@ -1,8 +1,8 @@
 package com.hostel.controller;
 
 
-import com.hostel.service.AuthService;
-import com.hostel.service.UserService;
+import com.hostel.service.impl.AuthService;
+import com.hostel.service.impl.UserService;
 import com.hostel.web.request.LoginRequest;
 import com.hostel.web.request.UserRegistrationRequest;
 import com.hostel.web.response.ApiResponse;

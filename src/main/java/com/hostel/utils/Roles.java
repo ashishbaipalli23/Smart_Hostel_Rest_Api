@@ -1,4 +1,4 @@
-package com.hostel.utilties;
+package com.hostel.utils;
 
 public enum Roles  {
     ADMIN,

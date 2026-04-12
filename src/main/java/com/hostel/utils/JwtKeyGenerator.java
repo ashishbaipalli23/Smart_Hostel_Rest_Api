@@ -1,4 +1,4 @@
-package com.hostel.utilties;
+package com.hostel.utils;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

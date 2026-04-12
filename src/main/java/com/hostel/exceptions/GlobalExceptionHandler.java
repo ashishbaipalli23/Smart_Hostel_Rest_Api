@@ -56,6 +56,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
     }
 
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxSizeException(org.springframework.web.multipart.MaxUploadSizeExceededException ex, HttpServletRequest request) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errorMsg("File size exceeds the 5MB limit.")
+                .status(HttpStatus.PAYLOAD_TOO_LARGE.value())
+                .timeStamp(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .build();
+
+        return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> globalExecption(Exception ex, HttpServletRequest request) {
 

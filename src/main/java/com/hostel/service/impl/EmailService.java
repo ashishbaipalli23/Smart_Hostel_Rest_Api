@@ -1,6 +1,13 @@
-package com.hostel.service;
+package com.hostel.service.impl;
+
+import com.hostel.utils.Roles;
+import com.hostel.utils.JwtKeyGenerator;
+import com.hostel.service.IUserService;
+import com.hostel.service.IEmailService;
+import com.hostel.utils.FileEncryptionUtil;
 
 import com.hostel.models.UserEntity;
+import com.hostel.web.request.UserRegistrationRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +33,7 @@ public class EmailService implements IEmailService {
 
     @Override
     @Async
-    public void sendUserRegistrationEmail(UserEntity user, String plainPassword) {
+    public void sendUserRegistrationEmail(UserRegistrationRequest user, String plainPassword) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -53,7 +60,7 @@ public class EmailService implements IEmailService {
 
     @Override
     @Async
-    public void sendAdminNotificationEmail(UserEntity user) {
+    public void sendAdminNotificationEmail(UserRegistrationRequest user) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -67,7 +74,8 @@ public class EmailService implements IEmailService {
             context.setVariable("username", user.getUsername());
             context.setVariable("phone", user.getPhoneNumber());
             context.setVariable("aadhaar", user.getAadhaarNumber());
-            context.setVariable("address", user.getAddress() + ", " + user.getCity() + ", " + user.getState() + " - " + user.getPincode());
+            context.setVariable("address",
+                    user.getAddress() + ", " + user.getCity() + ", " + user.getState() + " - " + user.getPincode());
             context.setVariable("role", user.getRole().name());
             context.setVariable("joiningDate", user.getJoiningDate());
 

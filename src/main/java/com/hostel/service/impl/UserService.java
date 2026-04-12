@@ -1,4 +1,9 @@
-package com.hostel.service;
+package com.hostel.service.impl;
+import com.hostel.utils.Roles;
+import com.hostel.utils.JwtKeyGenerator;
+import com.hostel.service.IUserService;
+import com.hostel.service.IEmailService;
+import com.hostel.utils.FileEncryptionUtil;
 
 import com.hostel.exceptions.ResourceAlreadyExistsException;
 import com.hostel.mapper.UserMapper;
@@ -47,8 +52,8 @@ public class UserService implements IUserService {
         UserEntity savedUser = userRepository.save(userEntity);
         log.info("User registered successfully with ID: {}", savedUser.getId());
 
-        emailService.sendUserRegistrationEmail(savedUser, rawPassword);
-        emailService.sendAdminNotificationEmail(savedUser);
+        emailService.sendUserRegistrationEmail(userMapper.toDto(savedUser), rawPassword);
+        emailService.sendAdminNotificationEmail(userMapper.toDto(savedUser));
 
         return "User register with ID + " + savedUser.getId();
     }

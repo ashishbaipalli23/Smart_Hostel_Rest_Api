@@ -1,10 +1,12 @@
 package com.hostel.web.request;
 
-import com.hostel.utilties.Roles;
+import com.hostel.utils.Roles;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Data
 public class UserRegistrationRequest {
@@ -52,5 +54,7 @@ public class UserRegistrationRequest {
     private String pincode;
 
     private Roles role;
+
+    private LocalDate joiningDate;
 
 }
