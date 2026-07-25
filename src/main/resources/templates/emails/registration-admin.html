@@ -99,8 +99,11 @@
                             <p style="margin: 5px 0 0 0; color: #aaaaaa; font-size: 12px; line-height: 1.5;">
                                 This is an automated administration message. Do not reply.
                             </p>
-                            <p style="margin: 5px 0 0 0; color: #aaaaaa; font-size: 12px; line-height: 1.5;">
-                                All rights reserved &copy; 2026 Smart Hostel System.
+                            <p style="margin: 5px 0 0 0; color: #aaaaaa;
+    font-size: 12px; line-height: 1.5;"
+                               th:text="'All rights reserved © ' + ${currentYear} + ' Smart Hostel System.'">
+
+                                All rights reserved © 2026 Smart Hostel System.
                             </p>
                         </td>
                     </tr>

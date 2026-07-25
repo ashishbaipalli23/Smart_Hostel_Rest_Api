@@ -1,11 +1,12 @@
 package com.hostel.service.impl;
 
+import com.hostel.enums.Roles;
 import com.hostel.web.request.TenantProfileUpdateDto;
 import com.hostel.web.response.TenantDocumentResponseDto;
 import com.hostel.models.UserEntity;
 import com.hostel.models.TenantDocument;
-import com.hostel.utils.DocumentStatus;
-import com.hostel.utils.DocumentType;
+import com.hostel.enums.DocumentStatus;
+import com.hostel.enums.DocumentType;
 import com.hostel.repository.UserRepository;
 import com.hostel.repository.TenantDocumentRepository;
 import com.hostel.service.ITenantService;
@@ -35,14 +36,25 @@ public class TenantServiceImpl implements ITenantService {
     }
 
     @Override
+    public List<UserEntity> getAllTenants() {
+        List<UserEntity> tenants = userRepository.findByRole(Roles.TENANT);
+        if (tenants.isEmpty()) {
+            return userRepository.findAll();
+        }
+        return tenants;
+    }
+
+    @Override
+    public UserEntity getTenantById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tenant not found with ID: " + id));
+    }
+
+    @Override
     @Transactional
     public UserEntity updateProfile(Long tenantId, TenantProfileUpdateDto dto) {
         log.info("Updating profile for tenant ID: {}", tenantId);
-        UserEntity user = userRepository.findById(tenantId)
-                .orElseThrow(() -> {
-                    log.error("Tenant with ID {} not found", tenantId);
-                    return new RuntimeException("User not found");
-                });
+        UserEntity user = getTenantById(tenantId);
 
         if (dto.getName() != null) user.setName(dto.getName());
         if (dto.getPhoneNumber() != null) user.setPhoneNumber(dto.getPhoneNumber());
@@ -52,7 +64,6 @@ public class TenantServiceImpl implements ITenantService {
         if (dto.getPincode() != null) user.setPincode(dto.getPincode());
         if (dto.getAadhaarNumber() != null) user.setAadhaarNumber(dto.getAadhaarNumber());
 
-        log.debug("Successfully updated profile fields for tenant ID: {}", tenantId);
         return userRepository.save(user);
     }
 
@@ -61,24 +72,27 @@ public class TenantServiceImpl implements ITenantService {
     public TenantDocumentResponseDto uploadDocument(Long tenantId, String documentType, MultipartFile file) throws Exception {
         log.info("Initiating upload logic for tenant ID: {}, documentType: {}", tenantId, documentType);
         
-        UserEntity tenant = userRepository.findById(tenantId)
-                .orElseThrow(() -> {
-                    log.error("Tenant not found with ID: {}", tenantId);
-                    return new RuntimeException("Tenant not found");
-                });
+        UserEntity tenant = getTenantById(tenantId);
 
-        // Validate Enum before file operation to prevent storing files on bad requests
         DocumentType type;
-        try {
-            type = DocumentType.valueOf(documentType.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            log.error("Invalid document base type requested: {}", documentType);
-            throw new IllegalArgumentException("Invalid document type: " + documentType);
+        String docTypeStr = documentType != null ? documentType.toUpperCase() : "AADHAR";
+        if (docTypeStr.contains("AADHAR")) {
+            type = DocumentType.AADHAR;
+        } else if (docTypeStr.contains("PAN")) {
+            type = DocumentType.PAN;
+        } else if (docTypeStr.contains("LICENSE")) {
+            type = DocumentType.DRIVING_LICENSE;
+        } else if (docTypeStr.contains("PASSPORT")) {
+            type = DocumentType.PASSPORT;
+        } else {
+            try {
+                type = DocumentType.valueOf(docTypeStr);
+            } catch (Exception e) {
+                type = DocumentType.OTHER;
+            }
         }
 
-        log.debug("Document type valid, mapping to storage service.");
         String savedFilename = fileStorageService.storeFile(file, tenantId);
-        log.info("Encrypted file stored on filesystem as: {}", savedFilename);
 
         TenantDocument document = new TenantDocument();
         document.setTenant(tenant);
@@ -87,7 +101,6 @@ public class TenantServiceImpl implements ITenantService {
         document.setStatus(DocumentStatus.PENDING);
 
         TenantDocument savedDoc = documentRepository.save(document);
-        log.info("Tenant Document meta-data efficiently saved in database with ID: {}", savedDoc.getId());
         return mapToDto(savedDoc);
     }
 

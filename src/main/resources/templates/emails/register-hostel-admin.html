@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Hostel Registration Alert</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f7f6; -webkit-font-smoothing: antialiased;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f7f6; padding: 40px 0;">
+    <tr>
+        <td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" width="600"
+                   style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; border-top: 4px solid #3498db;">
+
+                <!-- Header -->
+                <tr>
+                    <td align="center" style="padding: 30px 20px; border-bottom: 1px solid #eeeeee;">
+                        <h1 style="color: #3498db; margin: 0; font-size: 22px; font-weight: 600;">
+                            System Alert: New Hostel Created
+                        </h1>
+                    </td>
+                </tr>
+
+                <!-- Body -->
+                <tr>
+                    <td style="padding: 30px 40px;">
+
+                        <p style="color: #555555; font-size: 16px; line-height: 1.6; margin-top: 0; margin-bottom: 25px;">
+                            <strong>Hello Admin Team,</strong><br><br>
+                            A new hostel has been successfully registered in the Smart Hostel System.
+                            Please review the hostel details below.
+                        </p>
+
+                        <!-- Hostel Details Table -->
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                               style="border-collapse: collapse;">
+
+                            <tr>
+                                <td width="35%"
+                                    style="padding: 12px 15px; background-color: #f8f9fa; color: #2c3e50;
+                                    font-size: 14px; font-weight: bold; border: 1px solid #eeeeee;">
+                                    Hostel Code
+                                </td>
+
+                                <td width="65%"
+                                    style="padding: 12px 15px; color: #555555; font-size: 14px;
+                                    border: 1px solid #eeeeee;"
+                                    th:text="${code}">
+                                    HST001
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    Hostel Name
+                                </td>
+
+                                <td style="padding: 12px 15px; color: #555555;
+                                    font-size: 14px; border: 1px solid #eeeeee;"
+                                    th:text="${name}">
+                                    Smart Boys Hostel
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    Address
+                                </td>
+
+                                <td style="padding: 12px 15px; color: #555555;
+                                    font-size: 14px; border: 1px solid #eeeeee; line-height: 1.5;"
+                                    th:text="${address}">
+                                    Address
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    City
+                                </td>
+
+                                <td style="padding: 12px 15px; color: #555555;
+                                    font-size: 14px; border: 1px solid #eeeeee;"
+                                    th:text="${city}">
+                                    Hyderabad
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    State
+                                </td>
+
+                                <td style="padding: 12px 15px; color: #555555;
+                                    font-size: 14px; border: 1px solid #eeeeee;"
+                                    th:text="${state}">
+                                    Telangana
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    Pin Code
+                                </td>
+
+                                <td style="padding: 12px 15px; color: #555555;
+                                    font-size: 14px; border: 1px solid #eeeeee;"
+                                    th:text="${pinCode}">
+                                    500001
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    Gender Type
+                                </td>
+
+                                <td style="padding: 12px 15px; border: 1px solid #eeeeee;">
+                                    <span style="background-color: #ebf5ff; color: #3498db;
+                                        padding: 4px 10px; border-radius: 4px;
+                                        font-size: 12px; font-weight: bold;"
+                                          th:text="${genderType}">
+                                        BOYS
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 12px 15px; background-color: #f8f9fa;
+                                    color: #2c3e50; font-size: 14px; font-weight: bold;
+                                    border: 1px solid #eeeeee;">
+                                    Total Floors
+                                </td>
+
+                                <td style="padding: 12px 15px; color: #555555;
+                                    font-size: 14px; border: 1px solid #eeeeee;"
+                                    th:text="${totalFloors}">
+                                    5
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <p style="color: #555555; font-size: 15px; line-height: 1.6;
+                            margin-top: 30px; border-top: 1px dashed #dddddd; padding-top: 20px;">
+
+                            Please review the hostel configuration and availability
+                            from the administration dashboard.
+                        </p>
+
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td align="center"
+                        style="background-color: #f8f9fa; padding: 20px; border-top: 1px solid #eeeeee;">
+
+                        <p style="margin: 0; color: #999999; font-size: 12px;
+                            line-height: 1.5; text-transform: uppercase; letter-spacing: 1px;">
+
+                            Smart Hostel System Notification
+                        </p>
+
+                        <p style="margin: 5px 0 0 0; color: #aaaaaa;
+                            font-size: 12px; line-height: 1.5;">
+
+                            This is an automated administration message. Do not reply.
+                        </p>
+
+                        <p style="margin: 5px 0 0 0; color: #aaaaaa;
+    font-size: 12px; line-height: 1.5;"
+                           th:text="'All rights reserved © ' + ${currentYear} + ' Smart Hostel System.'">
+
+                            All rights reserved © 2026 Smart Hostel System.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

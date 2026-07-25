@@ -1,6 +1,6 @@
 package com.hostel.web.request;
 
-import com.hostel.utils.DocumentStatus;
+import com.hostel.enums.DocumentStatus;
 import lombok.Data;
 
 @Data

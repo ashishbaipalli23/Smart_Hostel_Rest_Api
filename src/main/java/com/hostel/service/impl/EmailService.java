@@ -1,24 +1,21 @@
 package com.hostel.service.impl;
 
-import com.hostel.utils.Roles;
-import com.hostel.utils.JwtKeyGenerator;
-import com.hostel.service.IUserService;
+import com.hostel.dto.HostelEmailDataDto;
+import com.hostel.dto.UserEmailDataDto;
 import com.hostel.service.IEmailService;
-import com.hostel.utils.FileEncryptionUtil;
-
-import com.hostel.models.UserEntity;
-import com.hostel.web.request.UserRegistrationRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.time.Year;
 
 @Service
 @RequiredArgsConstructor
@@ -32,61 +29,143 @@ public class EmailService implements IEmailService {
     private String adminEmail;
 
     @Override
-    @Async
-    public void sendUserRegistrationEmail(UserRegistrationRequest user, String plainPassword) {
+    public void sendEmail(String to, String subject, String body) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setTo(user.getUsername());
-            helper.setSubject("Registration Successful - Smart Hostel System");
-
-            Context context = new Context();
-            context.setVariable("name", user.getName());
-            context.setVariable("username", user.getUsername());
-            context.setVariable("password", plainPassword);
-            context.setVariable("role", user.getRole().name());
-
-            String htmlContent = templateEngine.process("emails/registration-user", context);
-            helper.setText(htmlContent, true);
-
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(body);
             mailSender.send(message);
-            log.info("Registration email sent successfully to User: {}", user.getUsername());
-
-        } catch (MessagingException e) {
-            log.error("Failed to send registration email to {}: {}", user.getUsername(), e.getMessage());
+            log.info("Simple email sent to {}", to);
+        } catch (Exception e) {
+            log.error("Failed to send simple email to {}: {}", to, e.getMessage());
         }
     }
 
     @Override
-    @Async
-    public void sendAdminNotificationEmail(UserRegistrationRequest user) {
+    public void sendUserRegistrationEmail(
+            UserEmailDataDto user,
+            String plainPassword
+    ) {
+
+        Context context = createBaseContext();
+
+        context.setVariable("name", user.name());
+        context.setVariable("username", user.username());
+        context.setVariable("password", plainPassword);
+        context.setVariable("role", user.role());
+
+        sendHtmlMail(
+                user.username(),
+                "Registration Successful - Smart Hostel System",
+                "emails/registration-user",
+                context
+        );
+    }
+
+    @Override
+    public void sendAdminNotificationEmail(UserEmailDataDto user) {
+
+        Context context = createBaseContext();
+
+        context.setVariable("name", user.name());
+        context.setVariable("username", user.username());
+        context.setVariable("phone", user.phoneNumber());
+        context.setVariable("aadhaar", user.aadhaarNumber());
+
+        context.setVariable(
+                "address",
+                user.address() + ", " +
+                        user.city() + ", " +
+                        user.state() + " - " +
+                        user.pinCode()
+        );
+
+        context.setVariable("role", user.role());
+        context.setVariable("joiningDate", user.joiningDate());
+
+        sendHtmlMail(
+                adminEmail,
+                "New User Registered Successfully - Smart Hostel System",
+                "emails/registration-admin",
+                context
+        );
+    }
+
+    @Override
+    public void sendHostelCreationMail(HostelEmailDataDto dto) {
+
+        Context context = createBaseContext();
+
+        context.setVariable("code", dto.code());
+        context.setVariable("name", dto.name());
+        context.setVariable("address", dto.address());
+        context.setVariable("city", dto.city());
+        context.setVariable("state", dto.state());
+        context.setVariable("pinCode", dto.pinCode());
+        context.setVariable("genderType", dto.genderType());
+        context.setVariable("totalFloors", dto.totalFloors());
+
+        sendHtmlMail(
+                adminEmail,
+                "New Hostel Created - Smart Hostel System",
+                "emails/register-hostel-admin",
+                context
+        );
+    }
+
+    /**
+     * Common reusable mail sender method
+     */
+    private void sendHtmlMail(
+            String to,
+            String subject,
+            String template,
+            Context context
+    ) {
+
         try {
+
             MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            // admin email is configured in application properties
-            helper.setTo(adminEmail);
-            helper.setSubject("New User Registered Successfully - Smart Hostel System");
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, "UTF-8");
 
-            Context context = new Context();
-            context.setVariable("name", user.getName());
-            context.setVariable("username", user.getUsername());
-            context.setVariable("phone", user.getPhoneNumber());
-            context.setVariable("aadhaar", user.getAadhaarNumber());
-            context.setVariable("address",
-                    user.getAddress() + ", " + user.getCity() + ", " + user.getState() + " - " + user.getPincode());
-            context.setVariable("role", user.getRole().name());
-            context.setVariable("joiningDate", user.getJoiningDate());
+            helper.setTo(to);
+            helper.setSubject(subject);
 
-            String htmlContent = templateEngine.process("emails/registration-admin", context);
+            String htmlContent =
+                    templateEngine.process(template, context);
+
             helper.setText(htmlContent, true);
 
             mailSender.send(message);
-            log.info("Admin notification email sent successfully for User: {}", user.getUsername());
+
+            log.info("Email sent successfully to {}", to);
 
         } catch (MessagingException e) {
-            log.error("Failed to send admin notification email for {}: {}", user.getUsername(), e.getMessage());
+
+            log.error(
+                    "Failed to send email to {} : {}",
+                    to,
+                    e.getMessage(),
+                    e
+            );
         }
+    }
+
+    /**
+     * Common reusable context creator
+     */
+    private Context createBaseContext() {
+
+        Context context = new Context();
+
+        context.setVariable(
+                "currentYear",
+                Year.now().getValue()
+        );
+
+        return context;
     }
 }

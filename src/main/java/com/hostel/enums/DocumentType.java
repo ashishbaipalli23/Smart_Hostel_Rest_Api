@@ -1,4 +1,4 @@
-package com.hostel.utils;
+package com.hostel.enums;
 
 public enum DocumentType {
     AADHAR,

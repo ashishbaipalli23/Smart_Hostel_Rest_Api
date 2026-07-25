@@ -21,6 +21,9 @@ public class UserPrincipal implements UserDetails {
                 new SimpleGrantedAuthority("ROLE_" + userEntity.getRole().name())
         );
     }
+    public Long getUserId(){
+        return userEntity.getId();
+    }
 
     @Override
     public String getPassword() {

@@ -1,8 +1,8 @@
 package com.hostel.models;
-import com.hostel.utils.Roles;
-import com.hostel.utils.DocumentType;
-import com.hostel.utils.DocumentStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hostel.enums.DocumentStatus;
+import com.hostel.enums.DocumentType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TenantDocument {
 
     @Id
@@ -26,6 +27,7 @@ public class TenantDocument {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id", nullable = false)
     @ToString.Exclude
+    @JsonIgnoreProperties({"password", "authorities", "hibernateLazyInitializer", "handler"})
     private UserEntity tenant;
 
     @Column(name = "file_path", nullable = false)
@@ -50,5 +52,4 @@ public class TenantDocument {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
 }
